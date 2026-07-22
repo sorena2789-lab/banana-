@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>موز شمار سلطان سورنا</title>
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./icon-192.png">
+<link rel="apple-touch-icon" href="./icon-180.png">
+<meta name="theme-color" content="#ffb703">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="موز شمار">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
+  html, body { margin: 0; padding: 0; }
+
+  html { background: #7ec8f2; }
+  body { min-height: 100vh; font-family: 'Lalezar', sans-serif; overflow-x: hidden; position: relative; background: #7ec8f2; }
+
+  .sky-day { position: fixed; top:0; left:0; right:0; bottom:0; z-index: 0; background: linear-gradient(180deg, #7ec8f2 0%, #b7e3f7 35%, #d9f2c4 60%, #a8d977 100%); }
+  .sky-night { position: fixed; top:0; left:0; right:0; bottom:0; z-index: 1; background: linear-gradient(180deg, #0b1033 0%, #1c2454 35%, #33305e 60%, #4a3f5e 100%); opacity: 0; transition: opacity 4s ease; }
+  body.night .sky-night { opacity: 1; }
+  .star { position: fixed; background: #fff; border-radius: 50%; z-index: 2; opacity: 0; transition: opacity 3s ease 0.5s; }
+  body.night .star { opacity: 0.9; animation: twinkle 2.5s ease-in-out infinite; }
+  @keyframes twinkle { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+  .cloud { position: absolute; background: #fff; border-radius: 50%; opacity: 0.9; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: opacity 3s ease; z-index: 2; }
+  body.night .cloud { opacity: 0.25; }
+  .cloud1 { width: 90px; height: 40px; top: 6%; right: 8%; }
+  .cloud1::before { content:''; position:absolute; width:50px; height:50px; background:#fff; border-radius:50%; top:-25px; left:10px; }
+  .cloud1::after { content:''; position:absolute; width:40px; height:40px; background:#fff; border-radius:50%; top:-15px; right:5px; }
+  .cloud2 { width: 70px; height: 30px; top: 12%; left: 10%; }
+  .cloud2::before { content:''; position:absolute; width:36px; height:36px; background:#fff; border-radius:50%; top:-18px; left:8px; }
+  .cloud2::after { content:''; position:absolute; width:30px; height:30px; background:#fff; border-radius:50%; top:-12px; right:4px; }
+
+  .sun { position: absolute; top: 5%; left: 6%; width: 60px; height: 60px; background: radial-gradient(circle, #ffe066, #ffc233); border-radius: 50%; box-shadow: 0 0 30px 10px rgba(255,214,102,0.6); transition: opacity 3s ease; z-index: 2; }
+  body.night .sun { opacity: 0; }
+  .moon { position: absolute; top: 5%; left: 6%; width: 54px; height: 54px; background: radial-gradient(circle at 35% 35%, #fdfdf5, #d9d9e8); border-radius: 50%; box-shadow: 0 0 25px 8px rgba(230,230,255,0.5); opacity: 0; transition: opacity 3s ease; z-index: 2; }
+  body.night .moon { opacity: 1; }
+  .moon::after { content: ''; position: absolute; width: 20px; height: 20px; background: #0b1033; border-radius: 50%; top: 6px; left: -4px; opacity: 0.5; }
+
+  .castle { position: absolute; bottom: 0; left: 0; right: 0; height: 45%; z-index: 2; display: flex; justify-content: center; align-items: flex-end; }
+  .castle-wall { position: relative; width: 100%; max-width: 900px; height: 70%; background: linear-gradient(180deg, #f6c9a0 0%, #e8a668 100%); border-top: 6px solid #d98c4a; display: flex; justify-content: space-around; align-items: flex-end; transition: filter 3s ease; }
+  body.night .castle-wall { filter: brightness(0.55); }
+  .castle-wall::before { content: ''; position: absolute; top: -22px; left: 0; right: 0; height: 22px; background-image: repeating-linear-gradient(90deg, #e8a668 0px, #e8a668 30px, transparent 30px, transparent 45px); }
+  .tower { position: relative; width: 100px; height: 220px; background: linear-gradient(180deg, #f6c9a0, #e0985a); border: 5px solid #c97c3d; border-bottom: none; border-radius: 8px 8px 0 0; }
+  .tower.tall { height: 280px; width: 120px; }
+  .tower::before { content: ''; position: absolute; top: -55px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 65px solid transparent; border-right: 65px solid transparent; border-bottom: 60px solid #d64545; }
+  .tower.tall::before { border-left: 75px solid transparent; border-right: 75px solid transparent; border-bottom: 70px solid #b93a3a; }
+  .tower .flag { position: absolute; top: -95px; left: 50%; width: 4px; height: 40px; background: #7a4a2a; }
+  .tower .flag::after { content: ''; position: absolute; top: 0; left: 4px; width: 24px; height: 16px; background: #ffd93d; clip-path: polygon(0 0, 100% 50%, 0 100%); }
+  .tower .window { position: absolute; width: 22px; height: 30px; background: #4a2f6b; border-radius: 50% 50% 0 0; top: 50px; left: 50%; transform: translateX(-50%); box-shadow: 0 0 0 3px #c97c3d; transition: background 3s ease, box-shadow 3s ease; }
+  body.night .tower .window { background: #ffe066; box-shadow: 0 0 12px 5px #ffe066, 0 0 0 3px #c97c3d; }
+  .gate { position: relative; width: 130px; height: 160px; background: #7a4a2a; border-radius: 65px 65px 0 0; border: 6px solid #5c341a; align-self: flex-end; cursor: pointer; }
+  .gate::before { content:''; position:absolute; top: 20px; left: 20px; right: 20px; bottom: 0; background: #40260f; border-radius: 45px 45px 0 0; }
+  .grass { position: absolute; bottom: 0; left: 0; right: 0; height: 6%; background: #7bbf4a; z-index: 3; transition: filter 3s ease; }
+  body.night .grass { filter: brightness(0.5); }
+
+  /* نوار بالا */
+  .topbar { position: relative; z-index: 20; display: flex; align-items: center; justify-content: space-between; padding: 12px 14px 0; }
+  .menu-btn, .profile-chip {
+    background: #fff9ea; border: 3px solid #d98c00; border-radius: 16px; cursor: pointer;
+    font-family: 'Lalezar', sans-serif; color: #5c341a;
+  }
+  .menu-btn { width: 44px; height: 44px; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; }
+  .profile-chip { padding: 6px 14px; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; }
+  .profile-chip .gem-tag { color: #7a3fd6; }
+
+  .content { position: relative; z-index: 5; display: flex; flex-direction: column; align-items: center; padding-top: 8px; }
+  .title { color: #fff; font-size: 2.1rem; text-align: center; text-shadow: 2px 2px 0 #d64545, 4px 4px 0 rgba(0,0,0,0.2); margin: 6px 0 4px; padding: 0 10px; }
+  .subtitle { color: #fff8e7; font-size: 1.15rem; text-shadow: 2px 2px 0 #c97c3d; margin-bottom: 12px; }
+
+  .level-badge { background: linear-gradient(180deg, #8a5cf6, #5e3fc9); color: #fff; border: 4px solid #402a94; border-radius: 20px; padding: 6px 22px; font-size: 1.1rem; margin-bottom: 12px; box-shadow: 0 5px 0 #2f1f6e; text-align: center; }
+  .level-progress-bg { width: 150px; height: 8px; background: rgba(255,255,255,0.3); border-radius: 5px; margin: 4px auto 0; overflow: hidden; }
+  .level-progress-fill { height: 100%; background: #ffd93d; width: 0%; transition: width 0.2s; }
+
+  .boxes-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 16px; }
+  .counter-box { background: #fff9ea; border: 5px solid #ffb703; border-radius: 22px; padding: 10px 18px; box-shadow: 0 6px 0 #d98c00; }
+  .counter-box.strawberry { border-color: #ff5e78; box-shadow: 0 6px 0 #d6304f; }
+  .counter-box.gem { border-color: #7a3fd6; box-shadow: 0 6px 0 #4b1f94; }
+  .counter-label { color: #d98c00; font-size: 1rem; text-align: center; margin: 0; }
+  .counter-box.strawberry .counter-label { color: #d6304f; }
+  .counter-box.gem .counter-label { color: #7a3fd6; }
+  .counter { color: #ff5e5e; font-size: 2.4rem; text-align: center; margin: 0; text-shadow: 2px 2px 0 #ffd166; transition: transform 0.1s; }
+  .counter.pop { transform: scale(1.25); }
+  .counter.strawberry-count { color: #d6304f; text-shadow: 2px 2px 0 #ffb3c0; }
+  .counter.gem-count { color: #7a3fd6; text-shadow: 2px 2px 0 #d8c2ff; }
+
+  .banana-wrap { position: relative; cursor: pointer; z-index: 10; transition: transform 0.08s; }
+  .banana-wrap:active { transform: scale(0.9) rotate(-8deg); }
+  .banana-svg { width: 200px; height: 210px; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.25)); animation: idle 2.2s ease-in-out infinite; }
+  @keyframes idle { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
+
+  .accessory { display: none; }
+  .skin-hat .acc-hat { display: block; }
+  .skin-glasses .acc-glasses { display: block; }
+  .skin-kitty .acc-kitty { display: block; }
+  .skin-ninja .acc-ninja { display: block; }
+  .skin-astro .acc-astro { display: block; }
+  .skin-pixel .banana-svg { image-rendering: pixelated; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.25)) contrast(1.3) saturate(1.4); }
+  .skin-pixel .banana-svg path, .skin-pixel .banana-svg ellipse { shape-rendering: crispEdges; }
+  .skin-digital .banana-svg #bananaBody { fill: #0d0d1a !important; stroke: #00fff0 !important; }
+  .skin-digital .banana-svg { filter: drop-shadow(0 0 12px #00fff0); }
+  .skin-rainbow .banana-svg #bananaBody { fill: url(#rainbowGrad) !important; }
+
+  .hint { color: #4a2f6b; font-size: 0.95rem; margin-top: 10px; background: #fff9ea; padding: 6px 16px; border-radius: 20px; border: 3px solid #ffb703; text-align: center; }
+  body.night .hint { background: #2c2450; color: #f0e6ff; border-color: #7a5cd6; }
+
+  .strawberry-companion { display: none; align-items: center; gap: 8px; margin-top: 12px; background: #fff0f3; border: 3px solid #ff5e78; border-radius: 20px; padding: 6px 16px; }
+  .strawberry-companion.show { display: flex; }
+  .strawberry-companion svg { width: 36px; height: 36px; }
+  .strawberry-companion span { font-size: 0.85rem; color: #b8324a; }
+
+  .status { color: #4a2f6b; font-size: 0.8rem; margin-top: 8px; opacity: 0.75; }
+  body.night .status { color: #cbb8ff; }
+
+  footer { position: relative; z-index: 5; text-align: center; color: #fff; text-shadow: 1px 1px 0 #7a4a2a; padding: 16px 10px 30px; font-size: 0.95rem; }
+
+  .floater { position: fixed; font-size: 1.7rem; font-family: 'Lalezar', sans-serif; text-shadow: 2px 2px 0 rgba(0,0,0,0.2); pointer-events: none; animation: floatUp 0.9s ease-out forwards; z-index: 60; }
+  .floater.banana { color: #ffb703; }
+  .floater.strawberry { color: #ff5e78; font-size: 2rem; }
+  @keyframes floatUp { 0% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(-90px) scale(1.4); } }
+
+  .bonus-banner, .level-banner { position: fixed; top: 18%; left: 50%; transform: translateX(-50%) scale(0.5); border-radius: 20px; padding: 14px 26px; font-size: 1.25rem; text-align: center; z-index: 90; opacity: 0; animation: bonusPop 1.8s ease-out forwards; max-width: 85vw; }
+  .bonus-banner { background: #ffd93d; border: 5px solid #d98c00; color: #7a4a2a; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+  .level-banner { top: 30%; background: linear-gradient(180deg, #8a5cf6, #5e3fc9); border: 5px solid #2f1f6e; color: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
+  @keyframes bonusPop {
+    0% { opacity: 0; transform: translateX(-50%) scale(0.4); }
+    15% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+    25% { transform: translateX(-50%) scale(1); }
+    80% { opacity: 1; }
+    100% { opacity: 0; transform: translateX(-50%) scale(1) translateY(-20px); }
+  }
+
+  /* دکمه‌ی گوشه‌ی قصر */
+  .castle-invite {
+    position: fixed; bottom: 18px; left: 14px; z-index: 40;
+    background: linear-gradient(180deg, #ffd93d, #ffb703); border: 3px solid #d98c00; border-radius: 18px;
+    padding: 10px 14px; font-family: 'Lalezar', sans-serif; color: #5c341a; font-size: 0.85rem;
+    box-shadow: 0 6px 0 #a86800; display: none; text-align: center; max-width: 150px; cursor: pointer;
+    animation: bounceInvite 1.6s ease-in-out infinite;
+  }
+  .castle-invite.show { display: block; }
+  @keyframes bounceInvite { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+  /* مودال‌های عمومی */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 16px; opacity: 0; animation: fadeIn 0.35s ease forwards; overflow-y: auto; }
+  @keyframes fadeIn { to { opacity: 1; } }
+  .modal-card { background: linear-gradient(180deg, #fff8e7, #ffe9c2); border: 5px solid #d98c00; border-radius: 24px; padding: 20px 18px; max-width: 380px; width: 100%; text-align: center; box-shadow: 0 15px 40px rgba(0,0,0,0.4); animation: modalPop 0.45s cubic-bezier(.34,1.56,.64,1); max-height: 90vh; overflow-y: auto; }
+  @keyframes modalPop { 0% { transform: scale(0.4); opacity:0; } 100% { transform: scale(1); opacity:1; } }
+  .modal-card svg { width: 130px; height: 130px; }
+  .modal-title { font-size: 1.5rem; color: #b93a3a; margin: 6px 0 4px; }
+  .modal-text { font-size: 1.02rem; color: #5c341a; margin: 0 0 14px; line-height: 1.7; }
+  .modal-btn { background: #ffb703; border: 3px solid #d98c00; color: #5c341a; font-family: 'Lalezar', sans-serif; font-size: 1.05rem; padding: 8px 26px; border-radius: 16px; cursor: pointer; margin: 4px; }
+  .modal-btn.secondary { background: #fff9ea; }
+  .modal-btn.danger { background: #ff8a8a; border-color: #c94a4a; }
+  .modal-input {
+    width: 100%; padding: 10px 14px; border-radius: 14px; border: 3px solid #ffb703; font-family: 'Lalezar', sans-serif;
+    font-size: 1.05rem; text-align: center; margin: 8px 0; background: #fffdf5; color: #5c341a;
+  }
+  .modal-close-x { position: absolute; top: 10px; left: 14px; font-size: 1.3rem; color: #b93a3a; cursor: pointer; background: none; border: none; }
+
+  /* منوی کشویی */
+  .side-menu-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 150; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+  .side-menu-overlay.open { opacity: 1; pointer-events: auto; }
+  .side-menu {
+    position: fixed; top: 0; right: 0; bottom: 0; width: 78%; max-width: 300px;
+    background: linear-gradient(180deg, #fff8e7, #ffe9c2); z-index: 151; transform: translateX(100%);
+    transition: transform 0.3s ease; padding: 20px 16px; box-shadow: -6px 0 20px rgba(0,0,0,0.3);
+    display: flex; flex-direction: column; gap: 10px; overflow-y: auto;
+  }
+  .side-menu.open { transform: translateX(0); }
+  .side-menu h3 { color: #b93a3a; text-align: center; margin: 6px 0 12px; font-size: 1.3rem; }
+  .side-menu-item {
+    background: #fff9ea; border: 3px solid #d98c00; border-radius: 16px; padding: 12px 16px;
+    font-family: 'Lalezar', sans-serif; color: #5c341a; font-size: 1.05rem; text-align: right; cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+
+  /* فروشگاه شخصی‌سازی */
+  .skin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px 0; }
+  .skin-card { background: #fffdf5; border: 3px solid #ffb703; border-radius: 16px; padding: 10px; text-align: center; }
+  .skin-card.owned { border-color: #7bbf4a; }
+  .skin-card.equipped { border-color: #7a3fd6; background: #f3ecff; }
+  .skin-card .skin-name { font-size: 0.95rem; color: #5c341a; margin: 4px 0; }
+  .skin-card .skin-price { font-size: 0.75rem; color: #8a5a2b; margin-bottom: 6px; }
+  .skin-card button { width: 100%; padding: 6px; border-radius: 10px; border: 2px solid #d98c00; background: #ffd93d; font-family: 'Lalezar', sans-serif; font-size: 0.8rem; cursor: pointer; margin-top: 2px; }
+  .skin-card button.owned-btn { background: #a8d977; border-color: #4a8a2a; }
+  .skin-card button.equipped-btn { background: #c7b3ff; border-color: #4b1f94; }
+
+  /* صحنه‌ی قصر */
+  .castle-scene { background: linear-gradient(180deg, #4a2f6b 0%, #6b3fa0 40%, #8a5a2b 100%); border-radius: 24px; padding: 20px 14px; }
+  .castle-scene .throne-row { display: flex; justify-content: space-around; align-items: flex-end; margin: 10px 0 0; }
+  .royal { display: flex; flex-direction: column; align-items: center; width: 45%; }
+  .nameplate { background: #3a2b1a; color: #ffd93d; border: 2px solid #ffd93d; border-radius: 10px; padding: 3px 10px; font-size: 0.8rem; margin-bottom: 4px; white-space: nowrap; }
+  .royal svg { width: 100px; height: 120px; }
+  .carpet { height: 30px; background: linear-gradient(180deg, #c1272d, #8f1a1e); margin: 10px auto 0; width: 70%; border-radius: 4px; box-shadow: 0 0 0 3px #7a1418; }
+
+  /* شرط‌بندی جنگ موزی */
+  .bet-stack { display: flex; flex-direction: column-reverse; gap: 8px; margin: 12px 0; }
+  .bet-option {
+    background: #fff9ea; border: 3px solid #ffb703; border-radius: 14px; padding: 10px; cursor: pointer;
+    font-size: 0.95rem; color: #5c341a; display: flex; justify-content: space-between; align-items: center;
+  }
+  .bet-option.selected { background: #ffe9b0; border-color: #d98c00; box-shadow: 0 0 0 3px #ffd166; }
+  .dice-row { display: flex; justify-content: center; gap: 16px; margin: 14px 0; }
+  .die { width: 56px; height: 56px; background: #fff; border: 3px solid #5c341a; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: bold; color: #5c341a; }
+</style>
+</head>
+<body>
+
+  <div class="sky-day"></div>
+  <div class="sky-night"></div>
+
+  <div class="sun"></div>
+  <div class="moon"></div>
+  <div class="cloud cloud1"></div>
+  <div class="cloud cloud2"></div>
+
+  <div class="castle">
+    <div class="castle-wall">
+      <div class="tower"><div class="flag"></div><div class="window"></div></div>
+      <div class="tower tall"><div class="flag"></div><div class="window"></div></div>
+      <div class="gate" id="gateBtn"></div>
+      <div class="tower tall"><div class="flag"></div><div class="window"></div></div>
+      <div class="tower"><div class="flag"></div><div class="window"></div></div>
+    </div>
+  </div>
+  <div class="grass"></div>
+
+  <div class="topbar">
+    <button class="menu-btn" id="menuBtn">☰</button>
+    <div class="profile-chip" id="profileChip">در حال ورود...</div>
+  </div>
+
+  <div class="content">
+    <h1 class="title">ساخته شده توسط سلطان سورنا</h1>
+    <div class="subtitle">🍌 موز شمار جادویی 🍌</div>
+
+    <div class="level-badge">
+      لول <span id="levelNum">۱</span>
+      <div class="level-progress-bg"><div class="level-progress-fill" id="levelProgress"></div></div>
+    </div>
+
+    <div class="boxes-row">
+      <div class="counter-box">
+        <p class="counter-label">موز</p>
+        <p class="counter" id="counter">0</p>
+      </div>
+      <div class="counter-box strawberry">
+        <p class="counter-label">🍓 توت‌فرنگی</p>
+        <p class="counter strawberry-count" id="strawberryCounter">0</p>
+      </div>
+      <div class="counter-box gem">
+        <p class="counter-label">💎 جم</p>
+        <p class="counter gem-count" id="gemCounter">0</p>
+      </div>
+    </div>
+
+    <div class="banana-wrap" id="banana">
+      <svg class="banana-svg" viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="rainbowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ff5e5e"/>
+            <stop offset="25%" stop-color="#ffd93d"/>
+            <stop offset="50%" stop-color="#7bbf4a"/>
+            <stop offset="75%" stop-color="#5cc7ff"/>
+            <stop offset="100%" stop-color="#c17aff"/>
+          </linearGradient>
+        </defs>
+        <path d="M45 140 C 25 145, 15 160, 20 175" stroke="#ffd93d" stroke-width="9" stroke-linecap="round" fill="none"/>
+        <path d="M110 150 C 130 152, 142 165, 138 180" stroke="#ffd93d" stroke-width="9" stroke-linecap="round" fill="none"/>
+        <path d="M65 168 C 62 185, 60 195, 58 200" stroke="#ffd93d" stroke-width="10" stroke-linecap="round" fill="none"/>
+        <path d="M85 168 C 88 185, 90 195, 92 200" stroke="#ffd93d" stroke-width="10" stroke-linecap="round" fill="none"/>
+        <ellipse cx="55" cy="203" rx="11" ry="6" fill="#b93a3a"/>
+        <ellipse cx="95" cy="203" rx="11" ry="6" fill="#b93a3a"/>
+        <path id="bananaBody" d="M60 170 C 20 150, 15 90, 55 45 C 80 18, 120 10, 150 20 C 140 30, 120 30, 105 45 C 70 80, 65 130, 90 155 C 80 168, 70 172, 60 170 Z"
+              fill="#ffe066" stroke="#e0a800" stroke-width="4"/>
+        <path d="M150 20 C 158 15, 168 18, 170 28 C 165 32, 155 30, 150 20 Z" fill="#8a5a2b" stroke="#5c341a" stroke-width="3"/>
+        <path d="M58 100 Q66 92 76 98" stroke="#5c341a" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <path d="M88 82 Q96 74 106 80" stroke="#5c341a" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <ellipse cx="70" cy="112" rx="9" ry="12" fill="#3a2b1a"/>
+        <ellipse cx="98" cy="92" rx="9" ry="12" fill="#3a2b1a"/>
+        <circle cx="73" cy="107" r="3" fill="#fff"/>
+        <circle cx="101" cy="87" r="3" fill="#fff"/>
+        <ellipse cx="58" cy="122" rx="7" ry="5" fill="#ff9aa8" opacity="0.7"/>
+        <ellipse cx="112" cy="102" rx="7" ry="5" fill="#ff9aa8" opacity="0.7"/>
+        <path d="M62 132 Q78 148 96 122" stroke="#5c341a" stroke-width="4" fill="none" stroke-linecap="round"/>
+
+        <!-- اکسسوری‌ها -->
+        <g class="accessory acc-hat">
+          <path d="M55 40 L100 5 L120 42 Z" fill="#ff5e78" stroke="#b93a3a" stroke-width="2"/>
+          <circle cx="100" cy="5" r="6" fill="#ffd93d"/>
+        </g>
+        <g class="accessory acc-glasses">
+          <circle cx="70" cy="112" r="12" fill="none" stroke="#222" stroke-width="4"/>
+          <circle cx="98" cy="92" r="12" fill="none" stroke="#222" stroke-width="4"/>
+          <path d="M82 105 L86 98" stroke="#222" stroke-width="3"/>
+        </g>
+        <g class="accessory acc-kitty">
+          <circle cx="45" cy="55" r="10" fill="#ffb3c0"/>
+          <path d="M38 48 L34 36 L46 44 Z" fill="#ffb3c0"/>
+          <path d="M52 48 L60 38 L54 50 Z" fill="#ffb3c0"/>
+        </g>
+        <g class="accessory acc-ninja">
+          <rect x="52" y="88" width="60" height="16" fill="#2c2c2c" transform="rotate(-18 82 96)"/>
+        </g>
+        <g class="accessory acc-astro">
+          <circle cx="83" cy="90" r="34" fill="rgba(200,230,255,0.35)" stroke="#c7d9e8" stroke-width="3"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="hint">روی موز بزن تا عدد بالا بره! 👆</div>
+
+    <div class="strawberry-companion" id="strawberryCompanion">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50 25 C 20 25, 12 55, 25 78 C 35 93, 65 93, 75 78 C 88 55, 80 25, 50 25 Z" fill="#ff5e78" stroke="#d6304f" stroke-width="3"/>
+        <path d="M35 25 C 30 12, 40 8, 50 15 C 60 8, 70 12, 65 25" fill="#4caf50" stroke="#2e7d32" stroke-width="2"/>
+        <circle cx="40" cy="52" r="4" fill="#3a2b1a"/><circle cx="60" cy="52" r="4" fill="#3a2b1a"/>
+        <path d="M42 68 Q50 76 58 68" stroke="#3a2b1a" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </svg>
+      <span>خانوم توت‌فرنگی از لول ۱۰ بهت کمک می‌کنه 🍓</span>
+    </div>
+
+    <div class="status" id="status">در حال اتصال...</div>
+  </div>
+
+  <footer>ساخته شده توسط سلطان سورنا 👑</footer>
+
+  <div class="castle-invite" id="castleInvite">🏰 سلطان سورنا باهات کار داره! بزن بریم قصر</div>
+
+  <!-- منوی کشویی -->
+  <div class="side-menu-overlay" id="sideMenuOverlay"></div>
+  <div class="side-menu" id="sideMenu">
+    <h3>👑 منو</h3>
+    <div class="side-menu-item" id="menuProfile">👤 پروفایل من <span>›</span></div>
+    <div class="side-menu-item" id="menuGift">🎁 هدیه دادن <span>›</span></div>
+    <div class="side-menu-item" id="menuShop">🎨 شخصی‌سازی موز <span>›</span></div>
+    <div class="side-menu-item" id="menuBattle">⚔️ جنگ موزی <span>›</span></div>
+    <div class="side-menu-item" id="menuCastle">🏰 قصر سلطان <span>›</span></div>
+  </div>
+
+  <div id="modalRoot"></div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+  import {
+    getAuth, signInAnonymously, onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+  import {
+    getFirestore, doc, getDoc, setDoc, updateDoc, onSnapshot,
+    runTransaction, collection, query, where, getDocs, addDoc,
+    serverTimestamp, increment
+  } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDpfq9B7agTwaIbFav_W6CjEXFXOuzdsGI",
+    authDomain: "banana-game-27042.firebaseapp.com",
+    projectId: "banana-game-27042",
+    storageBucket: "banana-game-27042.firebasestorage.app",
+    messagingSenderId: "944883331368",
+    appId: "1:944883331368:web:76a99c41d678d2d195601d",
+    measurementId: "G-P7PYNBPMN8"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // ---------- ثابت‌ها ----------
+  const NIGHT_DELAY_MS = 150000;
+  const KING_EVERY = 500;
+  const LEVEL_EVERY = 2000;
+  const STRAWBERRY_EVERY = 100;
+  const BONUS_EVERY_STRAWBERRIES = 10;
+  const BONUS_BANANAS = 200;
+  const GEM_EVERY_BANANAS = 10000;
+  const STRAWBERRY_LADY_LEVEL = 10;
+  const STRAWBERRY_LADY_INTERVAL_SEC = 5;
+  const OFFLINE_CLICK_CAP = 4320;
+  const SKIN_PRICE_GEMS = 10;
+  const SKIN_PRICE_STRAWBERRIES = 500;
+
+  const SKINS = [
+    { id: 'classic', name: 'کلاسیک', free: true },
+    { id: 'pixel', name: 'پیکسلی' },
+    { id: 'hat', name: 'کلاه‌دار' },
+    { id: 'glasses', name: 'عینکی' },
+    { id: 'kitty', name: 'کیتی' },
+    { id: 'ninja', name: 'نینجا' },
+    { id: 'astro', name: 'فضانورد' },
+    { id: 'digital', name: 'دیجیتالی' },
+    { id: 'rainbow', name: 'رنگین‌کمانی' },
+  ];
+
+  // ---------- عناصر ----------
+  const $ = (id) => document.getElementById(id);
+  const counterEl = $('counter'), strawberryCounterEl = $('strawberryCounter'), gemCounterEl = $('gemCounter');
+  const bananaEl = $('banana'), statusEl = $('status'), profileChip = $('profileChip');
+  const levelNumEl = $('levelNum'), levelProgressEl = $('levelProgress');
+  const strawberryCompanion = $('strawberryCompanion');
+  const castleInvite = $('castleInvite');
+  const modalRoot = $('modalRoot');
+
+  let uid = null, username = null;
+  let bananas = 0, strawberries = 0, gems = 0;
+  let bananaBaseUsed = 0, strawberryBaseUsed = 0, kingBaseUsed = 0, gemBaseUsed = 0;
+  let lastActiveTimestamp = 0, displayedLevel = 1, equippedSkin = 'classic', ownedSkins = ['classic'];
+  let ready = false, saveTimer = null;
+
+  function toFarsi(num) { const fa=['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹']; return String(num).replace(/[0-9]/g, d=>fa[d]); }
+  function currentLevel() { return Math.floor(bananas / LEVEL_EVERY) + 1; }
+
+  function createStars() {
+    for (let i = 0; i < 40; i++) {
+      const s = document.createElement('div');
+      s.className = 'star';
+      const size = Math.random()*2+1;
+      s.style.width = size+'px'; s.style.height = size+'px';
+      s.style.top = (Math.random()*55)+'%'; s.style.left = (Math.random()*100)+'%';
+      s.style.animationDelay = (Math.random()*2.5)+'s';
+      document.body.appendChild(s);
+    }
+  }
+  createStars();
+  setTimeout(()=>document.body.classList.add('night'), NIGHT_DELAY_MS);
+
+  function applySkinClass() {
+    document.body.className = document.body.className.replace(/\bskin-\S+/g, '').trim();
+    if (equippedSkin !== 'classic') document.body.classList.add('skin-' + equippedSkin);
+    if (document.body.classList.contains('night') === false && document.body.className.indexOf('night')===-1) {
+      // noop, night class handled separately
+    }
+  }
+
+  function render() {
+    counterEl.textContent = toFarsi(bananas);
+    strawberryCounterEl.textContent = toFarsi(strawberries);
+    gemCounterEl.textContent = toFarsi(gems);
+    const lvl = currentLevel();
+    levelNumEl.textContent = toFarsi(lvl);
+    const inLevel = bananas - (lvl-1)*LEVEL_EVERY;
+    levelProgressEl.style.width = Math.min(100,(inLevel/LEVEL_EVERY)*100)+'%';
+    if (lvl >= STRAWBERRY_LADY_LEVEL) strawberryCompanion.classList.add('show');
+    profileChip.innerHTML = `👤 ${username||'...'} &nbsp;|&nbsp; <span class="gem-tag">💎${toFarsi(gems)}</span>`;
+    applySkinClass();
+  }
+
+  function showFloater(text, cls, x, y) {
+    const f = document.createElement('div');
+    f.className = 'floater '+cls; f.textContent = text; f.style.left = x+'px'; f.style.top = y+'px';
+    document.body.appendChild(f); setTimeout(()=>f.remove(), 900);
+  }
+  function showBanner(cls, text, ms) {
+    const b = document.createElement('div'); b.className = cls; b.textContent = text;
+    document.body.appendChild(b); setTimeout(()=>b.remove(), ms||1900);
+  }
+  function showKingModal() {
+    openModal(`
+      <div class="modal-card">
+        <svg viewBox="0 0 160 160"><ellipse cx="80" cy="150" rx="55" ry="10" fill="rgba(0,0,0,0.15)"/>
+        <path d="M45 130 L45 90 Q80 100 115 90 L115 130 Q80 145 45 130 Z" fill="#5e3fc9" stroke="#402a94" stroke-width="3"/>
+        <circle cx="80" cy="65" r="34" fill="#ffd8b0" stroke="#e0a668" stroke-width="3"/>
+        <path d="M50 45 L45 25 L60 35 L70 18 L80 32 L90 18 L100 35 L115 25 L110 45 Z" fill="#ffd93d" stroke="#d98c00" stroke-width="3"/>
+        <circle cx="45" cy="25" r="4" fill="#ff5e78"/><circle cx="70" cy="18" r="4" fill="#5cc7ff"/><circle cx="90" cy="18" r="4" fill="#5cc7ff"/><circle cx="115" cy="25" r="4" fill="#ff5e78"/>
+        <ellipse cx="68" cy="65" rx="4" ry="6" fill="#3a2b1a"/><ellipse cx="92" cy="65" rx="4" ry="6" fill="#3a2b1a"/>
+        <ellipse cx="60" cy="75" rx="6" ry="4" fill="#ff9aa8" opacity="0.6"/><ellipse cx="100" cy="75" rx="6" ry="4" fill="#ff9aa8" opacity="0.6"/>
+        <path d="M62 88 Q80 98 98 88" stroke="#8a5a2b" stroke-width="4" fill="none" stroke-linecap="round"/></svg>
+        <p class="modal-title">👑 سلطان سورنا اومد! 👑</p>
+        <p class="modal-text">آفرین قهرمان! به <b>${toFarsi(bananas)}</b> موز رسیدی.</p>
+        <button class="modal-btn" onclick="this.closest('.modal-overlay').remove()">ممنون سلطان! 🙌</button>
+      </div>`);
+  }
+  function showStrawberryLadyModal(collected) {
+    openModal(`
+      <div class="modal-card">
+        <svg viewBox="0 0 100 100"><path d="M50 25 C 20 25, 12 55, 25 78 C 35 93, 65 93, 75 78 C 88 55, 80 25, 50 25 Z" fill="#ff5e78" stroke="#d6304f" stroke-width="3"/>
+        <path d="M35 25 C 30 12, 40 8, 50 15 C 60 8, 70 12, 65 25" fill="#4caf50" stroke="#2e7d32" stroke-width="2"/>
+        <circle cx="40" cy="52" r="4" fill="#3a2b1a"/><circle cx="60" cy="52" r="4" fill="#3a2b1a"/>
+        <path d="M42 68 Q50 76 58 68" stroke="#3a2b1a" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+        <p class="modal-title">🍓 خانوم توت‌فرنگی اومد!</p>
+        <p class="modal-text">آره، وقتی نبودی من برات کلیک کردم! <b>${toFarsi(collected)}</b> موز برات جمع کردم 🍌</p>
+        <button class="modal-btn" onclick="this.closest('.modal-overlay').remove()">دستت درد نکنه! 💕</button>
+      </div>`);
+  }
+
+  function checkConversions(x, y, silent) {
+    while (bananas - bananaBaseUsed >= STRAWBERRY_EVERY) { bananaBaseUsed += STRAWBERRY_EVERY; strawberries++; if(!silent) showFloater('+۱ 🍓','strawberry',x,y-40); }
+    while (strawberries - strawberryBaseUsed >= BONUS_EVERY_STRAWBERRIES) { strawberryBaseUsed += BONUS_EVERY_STRAWBERRIES; bananas += BONUS_BANANAS; if(!silent) showBanner('bonus-banner','🎉 ۱۰ توت‌فرنگی جمع شد! +۲۰۰ موز هدیه گرفتی 🍌🍌'); }
+    while (bananas - kingBaseUsed >= KING_EVERY) { kingBaseUsed += KING_EVERY; if(!silent) showKingModal(); }
+    if (bananas - gemBaseUsed >= GEM_EVERY_BANANAS) { castleInvite.classList.add('show'); }
+    const lvl = currentLevel();
+    if (lvl > displayedLevel) { if(!silent) showBanner('level-banner','⭐ لول '+toFarsi(lvl)+' شدی! ⭐'); displayedLevel = lvl; }
+  }
+
+  function scheduleSave() {
+    if (saveTimer) clearTimeout(saveTimer);
+    saveTimer = setTimeout(saveState, 500);
+  }
+  async function saveState() {
+    if (!uid) return;
+    try {
+      await updateDoc(doc(db,'users',uid), {
+        bananas, strawberries, gems, bananaBaseUsed, strawberryBaseUsed, kingBaseUsed, gemBaseUsed,
+        equippedSkin, ownedSkins, lastActiveTimestamp: Date.now()
+      });
+      statusEl.textContent = 'ذخیره شد ✅';
+    } catch(e) { statusEl.textContent = 'خطا در ذخیره‌سازی'; }
+  }
+
+  bananaEl.addEventListener('click', function() {
+    if (!ready) return;
+    bananas++;
+    lastActiveTimestamp = Date.now();
+    const rect = bananaEl.getBoundingClientRect();
+    const x = rect.left+rect.width/2-15, y = rect.top;
+    checkConversions(x,y,false);
+    render();
+    counterEl.classList.add('pop'); setTimeout(()=>counterEl.classList.remove('pop'),120);
+    showFloater('+۱','banana',x,y);
+    scheduleSave();
+  });
+
+  $('gateBtn').addEventListener('click', openCastleScene);
+  castleInvite.addEventListener('click', () => { collectGemAndOpenCastle(); });
+
+  function collectGemAndOpenCastle() {
+    if (bananas - gemBaseUsed >= GEM_EVERY_BANANAS) {
+      gemBaseUsed += GEM_EVERY_BANANAS;
+      gems += 1;
+      castleInvite.classList.remove('show');
+      render(); scheduleSave();
+      showBanner('bonus-banner','💎 سلطان بهت ۱ جم هدیه داد!');
+    }
+    openCastleScene();
+  }
+
+  function openModal(html) {
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.innerHTML = html;
+    overlay.addEventListener('click', (e)=>{ if(e.target===overlay) overlay.remove(); });
+    document.body.appendChild(overlay);
+    return overlay;
+  }
+
+  function openCastleScene() {
+    openModal(`
+      <div class="modal-card">
+        <button class="modal-close-x" onclick="this.closest('.modal-overlay').remove()">✕</button>
+        <p class="modal-title">🏰 قصر سلطان</p>
+        <div class="castle-scene">
+          <div class="throne-row">
+            <div class="royal">
+              <div class="nameplate">بانو یارا</div>
+              <svg viewBox="0 0 100 130"><ellipse cx="50" cy="122" rx="38" ry="6" fill="rgba(0,0,0,0.25)"/>
+                <path d="M22 110 L22 78 Q50 88 78 78 L78 110 Q50 122 22 110 Z" fill="#e0508a" stroke="#a63566" stroke-width="3"/>
+                <circle cx="50" cy="50" r="26" fill="#ffd8b0" stroke="#e0a668" stroke-width="3"/>
+                <path d="M28 40 Q50 15 72 40 Q68 60 50 55 Q32 60 28 40 Z" fill="#5c2e0a"/>
+                <path d="M35 26 L30 12 L42 20 L50 8 L58 20 L70 12 L65 26 Z" fill="#ffd93d" stroke="#d98c00" stroke-width="2"/>
+                <ellipse cx="42" cy="50" rx="3" ry="5" fill="#3a2b1a"/><ellipse cx="58" cy="50" rx="3" ry="5" fill="#3a2b1a"/>
+                <ellipse cx="36" cy="58" rx="5" ry="3" fill="#ff9aa8" opacity="0.6"/><ellipse cx="64" cy="58" rx="5" ry="3" fill="#ff9aa8" opacity="0.6"/>
+                <path d="M40 64 Q50 72 60 64" stroke="#8a5a2b" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+            </div>
+            <div class="royal">
+              <div class="nameplate">سلطان سورنا</div>
+              <svg viewBox="0 0 100 130"><ellipse cx="50" cy="122" rx="38" ry="6" fill="rgba(0,0,0,0.25)"/>
+                <path d="M22 110 L22 78 Q50 88 78 78 L78 110 Q50 122 22 110 Z" fill="#5e3fc9" stroke="#402a94" stroke-width="3"/>
+                <circle cx="50" cy="50" r="26" fill="#ffd8b0" stroke="#e0a668" stroke-width="3"/>
+                <path d="M32 22 L28 8 L40 16 L50 4 L60 16 L72 8 L68 22 Z" fill="#ffd93d" stroke="#d98c00" stroke-width="2"/>
+                <ellipse cx="42" cy="50" rx="3" ry="5" fill="#3a2b1a"/><ellipse cx="58" cy="50" rx="3" ry="5" fill="#3a2b1a"/>
+                <ellipse cx="36" cy="58" rx="5" ry="3" fill="#ff9aa8" opacity="0.6"/><ellipse cx="64" cy="58" rx="5" ry="3" fill="#ff9aa8" opacity="0.6"/>
+                <path d="M40 62 Q50 70 60 62" stroke="#5c341a" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+            </div>
+          </div>
+          <div class="carpet"></div>
+        </div>
+        <p class="modal-text" style="margin-top:14px;">«خوش اومدی قهرمان! هر ده‌هزار موز که جمع کنی، یه جم بهت می‌دم. همینطور موز جمع کن!» 👑</p>
+        <button class="modal-btn" onclick="this.closest('.modal-overlay').remove()">بریم موز بزنیم! 🍌</button>
+      </div>`);
+  }
+
+  // ---------- منوی کشویی ----------
+  const sideMenu = $('sideMenu'), sideMenuOverlay = $('sideMenuOverlay');
+  function toggleMenu(open) {
+    sideMenu.classList.toggle('open', open);
+    sideMenuOverlay.classList.toggle('open', open);
+  }
+  $('menuBtn').addEventListener('click', ()=>toggleMenu(true));
+  sideMenuOverlay.addEventListener('click', ()=>toggleMenu(false));
+  $('menuCastle').addEventListener('click', ()=>{ toggleMenu(false); openCastleScene(); });
+  $('menuProfile').addEventListener('click', ()=>{ toggleMenu(false); openProfileModal(); });
+  $('menuGift').addEventListener('click', ()=>{ toggleMenu(false); openGiftModal(); });
+  $('menuShop').addEventListener('click', ()=>{ toggleMenu(false); openShopModal(); });
+  $('menuBattle').addEventListener('click', ()=>{ toggleMenu(false); openBattleModal(); });
+
+  function openProfileModal() {
+    openModal(`
+      <div class="modal-card">
+        <button class="modal-close-x" onclick="this.closest('.modal-overlay').remove()">✕</button>
+        <p class="modal-title">👤 پروفایل من</p>
+        <p class="modal-text">
+          یوزرنیم: <b>${username}</b><br>
+          لول: <b>${toFarsi(currentLevel())}</b><br>
+          🍌 موز: <b>${toFarsi(bananas)}</b><br>
+          🍓 توت‌فرنگی: <b>${toFarsi(strawberries)}</b><br>
+          💎 جم: <b>${toFarsi(gems)}</b>
+        </p>
+        <button class="modal-btn secondary" onclick="this.closest('.modal-overlay').remove()">بستن</button>
+      </div>`);
+  }
+
+  // ---------- هدیه دادن ----------
+  function openGiftModal() {
+    const overlay = openModal(`
+      <div class="modal-card">
+        <button class="modal-close-x" onclick="this.closest('.modal-overlay').remove()">✕</button>
+        <p class="modal-title">🎁 هدیه دادن</p>
+        <p class="modal-text">یوزرنیم دوستت رو وارد کن و مقداری موز یا توت‌فرنگی براش بفرست.</p>
+        <input class="modal-input" id="giftUsername" placeholder="یوزرنیم گیرنده">
+        <select class="modal-input" id="giftType">
+          <option value="bananas">🍌 موز</option>
+          <option value="strawberries">🍓 توت‌فرنگی</option>
+        </select>
+        <input class="modal-input" id="giftAmount" type="number" placeholder="مقدار" min="1">
+        <div id="giftMsg" style="color:#b93a3a; font-size:0.85rem; min-height:20px;"></div>
+        <button class="modal-btn" id="giftSendBtn">ارسال هدیه 🎁</button>
+      </div>`);
+    overlay.querySelector('#giftSendBtn').addEventListener('click', async () => {
+      const toName = overlay.querySelector('#giftUsername').value.trim().toLowerCase();
+      const type = overlay.querySelector('#giftType').value;
+      const amount = parseInt(overlay.querySelector('#giftAmount').value, 10);
+      const msgEl = overlay.querySelector('#giftMsg');
+      if (!toName || !amount || amount <= 0) { msgEl.textContent = 'یوزرنیم و مقدار معتبر وارد کن.'; return; }
+      if (toName === username) { msgEl.textContent = 'نمی‌تونی به خودت هدیه بدی!'; return; }
+      if ((type==='bananas' && amount>bananas) || (type==='strawberries' && amount>strawberries)) {
+        msgEl.textContent = 'به این اندازه موجودی نداری.'; return;
+      }
+      msgEl.textContent = 'در حال ارسال...';
+      try {
+        const unameSnap = await getDoc(doc(db,'usernames',toName));
+        if (!unameSnap.exists()) { msgEl.textContent = 'همچین یوزرنیمی پیدا نشد.'; return; }
+        const toUid = unameSnap.data().uid;
+        await runTransaction(db, async (tx) => {
+          const myRef = doc(db,'users',uid);
+          const toRef = doc(db,'users',toUid);
+          const mySnap = await tx.get(myRef);
+          const cur = mySnap.data()[type] || 0;
+          if (cur < amount) throw new Error('insufficient');
+          tx.update(myRef, { [type]: cur - amount });
+          tx.update(toRef, { [type]: increment(amount) });
+        });
+        if (type==='bananas') bananas -= amount; else strawberries -= amount;
+        render(); scheduleSave();
+        msgEl.style.color = '#2e7d32';
+        msgEl.textContent = 'هدیه با موفقیت فرستاده شد! 🎉';
+      } catch(e) {
+        msgEl.textContent = 'خطا در ارسال هدیه. دوباره امتحان کن.';
+      }
+    });
+  }
+
+  // ---------- فروشگاه شخصی‌سازی ----------
+  function openShopModal() {
+    const cards = SKINS.map(s => {
+      const owned = ownedSkins.includes(s.id) || s.free;
+      const equipped = equippedSkin === s.id;
+      let btnHtml;
+      if (equipped) btnHtml = `<button class="equipped-btn" disabled>در حال استفاده</button>`;
+      else if (owned) btnHtml = `<button class="owned-btn" data-equip="${s.id}">استفاده کن</button>`;
+      else btnHtml = `
+        <button data-buy="${s.id}" data-pay="gems">خرید: ۱۰ 💎</button>
+        <button data-buy="${s.id}" data-pay="strawberries">یا ۵۰۰ 🍓</button>`;
+      return `<div class="skin-card ${owned?'owned':''} ${equipped?'equipped':''}">
+        <div class="skin-name">${s.name}</div>
+        ${btnHtml}
+      </div>`;
+    }).join('');
+    const overlay = openModal(`
+      <div class="modal-card">
+        <button class="modal-close-x" onclick="this.closest('.modal-overlay').remove()">✕</button>
+        <p class="modal-title">🎨 شخصی‌سازی موز</p>
+        <p class="modal-text">هر ظاهر: ۱۰ جم یا ۵۰۰ توت‌فرنگی</p>
+        <div class="skin-grid">${cards}</div>
+      </div>`);
+    overlay.querySelectorAll('[data-equip]').forEach(btn => {
+      btn.addEventListener('click', () => { equippedSkin = btn.getAttribute('data-equip'); render(); scheduleSave(); overlay.remove(); openShopModal(); });
+    });
+    overlay.querySelectorAll('[data-buy]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const skinId = btn.getAttribute('data-buy');
+        const pay = btn.getAttribute('data-pay');
+        if (pay==='gems' && gems < SKIN_PRICE_GEMS) { alert('جم کافی نداری!'); return; }
+        if (pay==='strawberries' && strawberries < SKIN_PRICE_STRAWBERRIES) { alert('توت‌فرنگی کافی نداری!'); return; }
+        if (pay==='gems') gems -= SKIN_PRICE_GEMS; else strawberries -= SKIN_PRICE_STRAWBERRIES;
+        ownedSkins.push(skinId); equippedSkin = skinId;
+        render(); scheduleSave(); overlay.remove(); openShopModal();
+      });
+    });
+  }
+
+  // ---------- جنگ موزی (تاس) ----------
+  const BET_OPTIONS = [
+    { id: 'banana500', label: '۵۰۰ موز 🍌', type:'bananas', amount:500 },
+    { id: 'banana10000', label: '۱۰٬۰۰۰ موز 🍌', type:'bananas', amount:10000 },
+    { id: 'gem5', label: '۵ جم 💎', type:'gems', amount:5 },
+  ];
+  let selectedBet = BET_OPTIONS[0];
+  let battleUnsub = null;
+
+  function openBattleModal() {
+    const betsHtml = BET_OPTIONS.map(b => `<div class="bet-option ${b.id===selectedBet.id?'selected':''}" data-bet="${b.id}">${b.label} <span>›</span></div>`).join('');
+    const overlay = openModal(`
+      <div class="modal-card">
+        <button class="modal-close-x" onclick="this.closest('.modal-overlay').remove()">✕</button>
+        <p class="modal-title">⚔️ جنگ موزی</p>
+        <p class="modal-text">یوزرنیم حریف رو وارد کن، شرط رو انتخاب کن و دعوتش کن!</p>
+        <input class="modal-input" id="battleUsername" placeholder="یوزرنیم حریف">
+        <div class="bet-stack">${betsHtml}</div>
+        <div id="battleMsg" style="color:#b93a3a; font-size:0.85rem; min-height:20px;"></div>
+        <button class="modal-btn" id="battleSendBtn">دعوت به جنگ موزی ⚔️</button>
+      </div>`);
+    overlay.querySelectorAll('[data-bet]').forEach(el => {
+      el.addEventListener('click', () => {
+        selectedBet = BET_OPTIONS.find(b=>b.id===el.getAttribute('data-bet'));
+        overlay.querySelectorAll('.bet-option').forEach(o=>o.classList.remove('selected'));
+        el.classList.add('selected');
+      });
+    });
+    overlay.querySelector('#battleSendBtn').addEventListener('click', async () => {
+      const toName = overlay.querySelector('#battleUsername').value.trim().toLowerCase();
+      const msgEl = overlay.querySelector('#battleMsg');
+      if (!toName) { msgEl.textContent = 'یوزرنیم حریف رو بنویس.'; return; }
+      if (toName === username) { msgEl.textContent = 'نمی‌تونی خودت رو دعوت کنی!'; return; }
+      const balance = selectedBet.type==='bananas'?bananas:gems;
+      if (balance < selectedBet.amount) { msgEl.textContent = 'موجودی کافی برای این شرط نداری.'; return; }
+      msgEl.textContent = 'در حال ارسال دعوت...';
+      try {
+        const unameSnap = await getDoc(doc(db,'usernames',toName));
+        if (!unameSnap.exists()) { msgEl.textContent = 'همچین یوزرنیمی پیدا نشد.'; return; }
+        const toUid = unameSnap.data().uid;
+        const ref = await addDoc(collection(db,'challenges'), {
+          fromUid: uid, fromUsername: username, toUid, toUsername: toName,
+          betType: selectedBet.type, betAmount: selectedBet.amount,
+          status: 'pending', rollFrom: null, rollTo: null, winnerUid: null,
+          createdAt: serverTimestamp()
+        });
+        msgEl.style.color = '#2e7d32';
+        msgEl.textContent = 'دعوت فرستاده شد! منتظر پاسخ حریف بمون.';
+        watchBattle(ref.id);
+      } catch(e) { msgEl.textContent = 'خطا در ارسال دعوت.'; }
+    });
+  }
+
+  function watchBattle(battleId) {
+    if (battleUnsub) battleUnsub();
+    battleUnsub = onSnapshot(doc(db,'challenges',battleId), (snap) => {
+      if (!snap.exists()) return;
+      renderBattleModal(battleId, snap.data());
+    });
+  }
+
+  function renderBattleModal(battleId, data) {
+    document.querySelectorAll('.modal-overlay').forEach(o=>o.remove());
+    const iAmFrom = data.fromUid === uid;
+    const myRoll = iAmFrom ? data.rollFrom : data.rollTo;
+    const oppRoll = iAmFrom ? data.rollTo : data.rollFrom;
+    const oppName = iAmFrom ? data.toUsername : data.fromUsername;
+    const betLabel = BET_OPTIONS.find(b=>b.type===data.betType && b.amount===data.betAmount)?.label || (data.betAmount+' '+data.betType);
+
+    let body = '';
+    if (data.status === 'pending' && !iAmFrom) {
+      body = `<p class="modal-text"><b>${data.fromUsername}</b> تو رو به جنگ موزی با شرط ${betLabel} دعوت کرده!</p>
+        <button class="modal-btn" id="acceptBtn">قبول می‌کنم ⚔️</button>
+        <button class="modal-btn danger" id="declineBtn">رد می‌کنم</button>`;
+    } else if (data.status === 'pending' && iAmFrom) {
+      body = `<p class="modal-text">منتظر پاسخ <b>${data.toUsername}</b> برای شرط ${betLabel}...</p>
+        <button class="modal-btn secondary" onclick="this.closest('.modal-overlay').remove()">بعداً چک می‌کنم</button>`;
+    } else if (data.status === 'declined') {
+      body = `<p class="modal-text">حریف دعوتت رو رد کرد. 😢</p><button class="modal-btn secondary" onclick="this.closest('.modal-overlay').remove()">باشه</button>`;
+    } else if (data.status === 'accepted' || data.status === 'rolling') {
+      body = `<p class="modal-text">شرط: ${betLabel}<br>حریف: <b>${oppName}</b></p>
+        <div class="dice-row">
+          <div class="die">${myRoll ? myRoll[0]+myRoll[1] : '؟'}</div>
+          <div class="die">${oppRoll ? oppRoll[0]+oppRoll[1] : '؟'}</div>
+        </div>
+        ${myRoll ? '<p class="modal-text">منتظر تاس حریف...</p>' : `<button class="modal-btn" id="rollBtn">ریختن تاس 🎲</button>`}`;
+    } else if (data.status === 'done') {
+      const iWon = data.winnerUid === uid;
+      const tie = !data.winnerUid;
+      body = `<p class="modal-text">
+          موز/جم من: ${myRoll?myRoll[0]+' + '+myRoll[1]+' = '+(myRoll[0]+myRoll[1]):'-'}<br>
+          حریف: ${oppRoll?oppRoll[0]+' + '+oppRoll[1]+' = '+(oppRoll[0]+oppRoll[1]):'-'}
+        </p>
+        <p class="modal-title" style="font-size:1.3rem;">${tie ? '🤝 مساوی شد!' : (iWon ? '🎉 بردی!' : '😢 باختی')}</p>
+        <button class="modal-btn secondary" onclick="this.closest('.modal-overlay').remove()">بستن</button>`;
+    }
+
+    const overlay = openModal(`<div class="modal-card"><button class="modal-close-x" onclick="this.closest('.modal-overlay').remove()">✕</button><p class="modal-title">⚔️ جنگ موزی</p>${body}</div>`);
+
+    const acceptBtn = overlay.querySelector('#acceptBtn');
+    if (acceptBtn) acceptBtn.addEventListener('click', async () => {
+      await updateDoc(doc(db,'challenges',battleId), { status: 'accepted' });
+    });
+    const declineBtn = overlay.querySelector('#declineBtn');
+    if (declineBtn) declineBtn.addEventListener('click', async () => {
+      await updateDoc(doc(db,'challenges',battleId), { status: 'declined' });
+    });
+    const rollBtn = overlay.querySelector('#rollBtn');
+    if (rollBtn) rollBtn.addEventListener('click', async () => {
+      const d1 = Math.ceil(Math.random()*6), d2 = Math.ceil(Math.random()*6);
+      const field = iAmFrom ? 'rollFrom' : 'rollTo';
+      await updateDoc(doc(db,'challenges',battleId), { [field]: [d1,d2], status: 'rolling' });
+      await maybeResolveBattle(battleId);
+    });
+  }
+
+  async function maybeResolveBattle(battleId) {
+    try {
+      await runTransaction(db, async (tx) => {
+        const ref = doc(db,'challenges',battleId);
+        const snap = await tx.get(ref);
+        const data = snap.data();
+        if (!data || data.status === 'done' || !data.rollFrom || !data.rollTo) return;
+        const sumFrom = data.rollFrom[0]+data.rollFrom[1];
+        const sumTo = data.rollTo[0]+data.rollTo[1];
+        const field = data.betType; // 'bananas' or 'gems'
+        const amount = data.betAmount;
+        const fromRef = doc(db,'users',data.fromUid);
+        const toRef = doc(db,'users',data.toUid);
+        const fromSnap = await tx.get(fromRef);
+        const toSnap = await tx.get(toRef);
+        let winnerUid = null;
+        if (sumFrom === sumTo) {
+          // مساوی - چیزی جابه‌جا نمی‌شه
+        } else if (sumFrom > sumTo) {
+          winnerUid = data.fromUid;
+          tx.update(fromRef, { [field]: increment(amount) });
+          tx.update(toRef, { [field]: increment(-amount) });
+        } else {
+          winnerUid = data.toUid;
+          tx.update(toRef, { [field]: increment(amount) });
+          tx.update(fromRef, { [field]: increment(-amount) });
+        }
+        tx.update(ref, { status: 'done', winnerUid });
+      });
+      // به‌روزرسانی موجودی محلی اگه من یکی از طرفینم
+      const snap = await getDoc(doc(db,'users',uid));
+      if (snap.exists()) {
+        const d = snap.data();
+        bananas = d.bananas||0; strawberries = d.strawberries||0; gems = d.gems||0;
+        bananaBaseUsed = d.bananaBaseUsed||0; strawberryBaseUsed = d.strawberryBaseUsed||0;
+        kingBaseUsed = d.kingBaseUsed||0; gemBaseUsed = d.gemBaseUsed||0;
+        render();
+      }
+    } catch(e) { /* یکی از طرفین احتمالاً همزمان حلش کرده */ }
+  }
+
+  // گوش دادن به دعوت‌های ورودی
+  function listenIncomingChallenges() {
+    const q = query(collection(db,'challenges'), where('toUid','==',uid), where('status','==','pending'));
+    onSnapshot(q, (snap) => {
+      snap.docChanges().forEach(change => {
+        if (change.type === 'added') {
+          const data = change.doc.data();
+          if (!document.querySelector('.modal-overlay')) {
+            watchBattle(change.doc.id);
+          }
+        }
+      });
+    });
+  }
+
+  // ---------- یوزرنیم و ورود ----------
+  function openUsernameModal() {
+    const overlay = openModal(`
+      <div class="modal-card">
+        <p class="modal-title">🍌 خوش اومدی!</p>
+        <p class="modal-text">یه یوزرنیم برای خودت انتخاب کن (فقط حروف انگلیسی و عدد):</p>
+        <input class="modal-input" id="usernameInput" placeholder="مثلاً: sourena123" maxlength="20">
+        <div id="usernameMsg" style="color:#b93a3a; font-size:0.85rem; min-height:20px;"></div>
+        <button class="modal-btn" id="usernameSubmit">شروع بازی 🎮</button>
+      </div>`);
+    overlay.querySelector('#usernameSubmit').addEventListener('click', async () => {
+      const raw = overlay.querySelector('#usernameInput').value.trim();
+      const msgEl = overlay.querySelector('#usernameMsg');
+      const clean = raw.toLowerCase().replace(/[^a-z0-9_]/g,'');
+      if (clean.length < 3) { msgEl.textContent = 'حداقل ۳ حرف انگلیسی یا عدد وارد کن.'; return; }
+      msgEl.textContent = 'در حال بررسی...';
+      try {
+        const unameRef = doc(db,'usernames',clean);
+        const existing = await getDoc(unameRef);
+        if (existing.exists()) { msgEl.textContent = 'این یوزرنیم قبلاً گرفته شده، یکی دیگه امتحان کن.'; return; }
+        await setDoc(unameRef, { uid });
+        username = clean;
+        await setDoc(doc(db,'users',uid), {
+          username: clean, bananas:0, strawberries:0, gems:0,
+          bananaBaseUsed:0, strawberryBaseUsed:0, kingBaseUsed:0, gemBaseUsed:0,
+          equippedSkin:'classic', ownedSkins:['classic'], lastActiveTimestamp: Date.now(), createdAt: serverTimestamp()
+        });
+        overlay.remove();
+        afterLogin();
+      } catch(e) { msgEl.textContent = 'خطایی پیش اومد، دوباره امتحان کن.'; }
+    });
+  }
+
+  const OLD_STORAGE_KEY = 'bananaGameState';
+  const OLD_CLAIMED_KEY = 'oldProgressClaimedV2';
+
+  function tryRecoverOldProgress() {
+    try {
+      if (localStorage.getItem(OLD_CLAIMED_KEY)) return;
+      const raw = localStorage.getItem(OLD_STORAGE_KEY);
+      if (!raw) { localStorage.setItem(OLD_CLAIMED_KEY, '1'); return; }
+      const old = JSON.parse(raw);
+      const oldBananas = old.bananas || 0;
+      const oldStrawberries = old.strawberries || 0;
+      localStorage.setItem(OLD_CLAIMED_KEY, '1');
+      if (oldBananas <= 0 && oldStrawberries <= 0) return;
+      bananas += oldBananas;
+      strawberries += oldStrawberries;
+      checkConversions(0, 0, true);
+      render(); scheduleSave();
+      setTimeout(() => {
+        openModal(`
+          <div class="modal-card">
+            <p class="modal-title">🎉 موزهای قدیمیت برگشت!</p>
+            <p class="modal-text">از نسخه‌ی قبلی، <b>${toFarsi(oldBananas)}</b> موز و <b>${toFarsi(oldStrawberries)}</b> توت‌فرنگی برات اضافه شد.</p>
+            <button class="modal-btn" onclick="this.closest('.modal-overlay').remove()">عالیه! 🙌</button>
+          </div>`);
+      }, 600);
+    } catch(e) { /* داده‌ی قدیمی خراب یا موجود نبود */ }
+  }
+
+  async function afterLogin() {
+    displayedLevel = currentLevel();
+    // جمع‌آوری آفلاین خانوم توت‌فرنگی
+    if (currentLevel() >= STRAWBERRY_LADY_LEVEL && lastActiveTimestamp) {
+      const elapsedSec = Math.max(0, (Date.now()-lastActiveTimestamp)/1000);
+      let clicks = Math.min(Math.floor(elapsedSec/STRAWBERRY_LADY_INTERVAL_SEC), OFFLINE_CLICK_CAP);
+      if (clicks > 0) { bananas += clicks; checkConversions(0,0,true); setTimeout(()=>showStrawberryLadyModal(clicks), 400); }
+    }
+    lastActiveTimestamp = Date.now();
+    ready = true;
+    statusEl.textContent = 'خوش اومدی، ' + username + '! 🎮';
+    render();
+    scheduleSave();
+    listenIncomingChallenges();
+    tryRecoverOldProgress();
+  }
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      signInAnonymously(auth).catch((err) => {
+        console.error('Auth error:', err);
+        statusEl.textContent = 'خطا در ورود: ' + (err.code || err.message || 'نامشخص');
+        profileChip.textContent = 'خطا در اتصال ⚠️';
+      });
+      return;
+    }
+    uid = user.uid;
+    try {
+      const userSnap = await getDoc(doc(db,'users',uid));
+      if (userSnap.exists()) {
+        const d = userSnap.data();
+        username = d.username;
+        bananas = d.bananas||0; strawberries = d.strawberries||0; gems = d.gems||0;
+        bananaBaseUsed = d.bananaBaseUsed||0; strawberryBaseUsed = d.strawberryBaseUsed||0;
+        kingBaseUsed = d.kingBaseUsed||0; gemBaseUsed = d.gemBaseUsed||0;
+        equippedSkin = d.equippedSkin||'classic'; ownedSkins = d.ownedSkins||['classic'];
+        lastActiveTimestamp = d.lastActiveTimestamp||Date.now();
+        afterLogin();
+      } else {
+        statusEl.textContent = 'یه یوزرنیم انتخاب کن تا شروع کنیم!';
+        openUsernameModal();
+      }
+    } catch(e) {
+      console.error('Firestore error:', e);
+      statusEl.textContent = 'خطا در اتصال: ' + (e.code || e.message || 'نامشخص');
+    }
+  });
+
+  window.addEventListener('beforeunload', () => { if(uid) saveState(); });
+  document.addEventListener('visibilitychange', () => { if (document.hidden && ready) { lastActiveTimestamp = Date.now(); saveState(); } });
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./service-worker.js').catch((e) => console.error('SW register failed:', e));
+    });
+  }
+</script>
+</body>
+</html>
